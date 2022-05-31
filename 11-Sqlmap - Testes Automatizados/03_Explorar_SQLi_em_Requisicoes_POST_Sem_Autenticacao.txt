@@ -1,0 +1,13 @@
+______________________________________
+\\REQUISIÇÕES POST - SEM AUTENTICAÇÃO//
+-------------------------------------- 
+
+Normalmente, as requisições POST enviam informação no body. No entanto, podem haver casos em que requisições GET
+tambem enviam informação no body. Para no SQLmap especificarmos a informação enviada no body da requisição, temos que
+utilizar a tag --data=”Info_Enviada_No_Body”:
+
+# sqlmap -u "EndPoint da Requisição." --data="info_enviada_no_body"
+
+Precisamos interceptar a rquisição.
+
+Ex: # sqlmap -u "http://192.168.0.100/mutillidae/index.php?page=view-blog.php" --data="author=jeremyb-view-sometimes-blog.php"

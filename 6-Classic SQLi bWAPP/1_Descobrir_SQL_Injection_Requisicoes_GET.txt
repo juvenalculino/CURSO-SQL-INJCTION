@@ -1,0 +1,22 @@
+// Vamos abrir nossa área de testes e entrar em bWAPP
+
+Nível de Segurança Low
+
+Exercício: SQL Injection [GET/Search]
+
+Vamos adicionar caracteres no campo search para ver o comportamento da aplicação em relação a palavras.
+[Upercase | Lowercase | ETC..]
+
+Vamos testar o campo colocando caracteres especiais.
+' --> Deu erro: SQL Syntax
+
+SELECT * FROM filmes WHERE titulo LIKE '%'.$titulo.'%'
+------------------------------------------------------ 
+
+Injeção 1: '
+Query: SELECT * FROM filmes WHERE titulo LIKE '%'%'
+Ex: '
+----------------------------------------------------
+
+Injeção 2: '#
+Query: SELECT * FROM filmes WHERE titulo LIKE '#'

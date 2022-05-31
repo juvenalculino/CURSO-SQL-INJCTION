@@ -1,0 +1,23 @@
+Seleccionar toda a informação da tabela Aluno
+SELECT * FROM Aluno;
+
+Seleccionar toda a informação da tabela Avaliacao
+SELECT * FROM Avaliacao;
+
+Seleccionar toda a informação da tabela Professor
+SELECT * FROM Professor;
+
+O operador UNION permite-nos combinar o resultado de 2 ou mais SELECTs numa só query.
+
+Todos os SELECTs devem ter o mesmo número de colunas;
+
+O tipo de de informação (varchar, int, etc..) das colunas deve ser igual;
+
+Como a tabela Aluno e Professor cumprem com estas regras, podemos executar a query seguinte:
+SELECT * FROM Aluno UNION SELECT * FROM Professor;
+
+Como a tabela Aluno e Avaliacao não cumprem com estas regras, não podemos executar a query seguinte:
+SELECT * FROM Aluno UNION SELECT * FROM Avaliacao;
+
+No entanto, podemos usar a seguinte query:
+SELECT id, nome FROM Aluno UNION SELECT id, nota_final FROM Avaliacao;

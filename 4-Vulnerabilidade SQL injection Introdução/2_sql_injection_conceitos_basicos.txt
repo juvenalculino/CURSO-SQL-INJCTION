@@ -1,0 +1,11 @@
+O que é SQL Injection?
+
+SQL Injection / Injeção SQL é uma vulnerabilidade que permite manipular de
+forma não autorizada as queires que a aplicação faz ao banco de dados. Este tipo
+de vulnerabilidade existe quando o input do usuário não é tratado corretamente
+pela aplicação antes de ser colocado na query SQL.
+    
+    A exploração desta vulnerabilidade poderá permitir:
+        ● Acesso a informação sensível / confidencial guardada no banco de dados;
+        ● Criar / Modificar / Eliminar registos guardados no banco de dados;
+        ● Ganhar acesso remoto ao servidor de banco de dados;

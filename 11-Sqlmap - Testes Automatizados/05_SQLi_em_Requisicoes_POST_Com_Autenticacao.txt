@@ -1,0 +1,13 @@
+________________________________________
+\\REQUISIÇÕES POST - COM AUTENTICAÇÃO//
+---------------------------------------- 
+A autenticação num website funciona normalmente através de cookies ou tokens de sessão. Ou seja, em cada requisição que
+fazemos, enviamos nos headers o cookie ou token de sessão, que é validado pela aplicação antes de podermos acessar a
+determinadas funcionalidades. Para testar SQL Injection nestas funcionalidades com a ferramenta SQLmap, é necessário
+especificar os cookies ou tokens de sessão. Isto pode ser feito através da flag --headers=”Cookies_Sessão”. Se estivermos
+perante uma requisição POST que envia informação no body, temos que especificar esta informação através da flag
+--data=”Info_Enviada_No_Body”:
+
+_____________________________________
+Precisamos intercetar com o burpsuite.
+# sqlmap -u “ENDPOINT_DA REQUISIÇÃO” --data=”Info_Enviada_No_Body” --headers=”COOKIE1; COOKIE2;”

@@ -1,0 +1,29 @@
+\\COMO TESTAR SQLi EM AUDITÓRIAS DE SEGURANÇA?//
+
+SQLmap + Testes Manuais
+------------------------
+
+● Com o Burp Suite, mapear todas as requisições da aplicação a auditar;
+
+● Colocar as requisições em ficheiros de texto, ou seja, 100 requisições = 100 ficheiros de texto;
+
+● Abrir, por exemplo 6 terminais e em cada terminal correr o scan com o SQLmap para requisições
+diferentes. Se for identificado SQL Injection para uma determinada requisição, utilizar a
+ferramenta para extrair informação do banco de dados;
+
+● Enquanto o scan de vulnerabilidades automatizado está a correr, fazer testes manuais às
+funcionalidades mais importantes da aplicação a auditar;
+
+---------------------------------------------------------------------------
+
+Burp Suite Pro Scanner + Testes Manuais
+---------------------------------------
+
+● Correr um scan de vulnerabilidades automatizado com o scanner do Burp Suite Pro.
+
+● Enquanto o scan de vulnerabilidades está a correr, testar manualmente as funcionalidades mais
+importantes da aplicação web.
+
+● Sempre que o scan de vulnerabilidades do Burp Suite identificar uma vulnerabilidade de SQL Injection,
+tentar replicar manualmente a exploração dessa vulnerabilidade e extrair informação do banco de
+dados.

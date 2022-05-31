@@ -1,0 +1,15 @@
+SQL - Structured Query Language
+
+Bancos de Dados
+    * É um conjunto de informações modelada deforma lógica que é  tipicamente
+      armazenada num computador ou em outro tipo de hardware, de forma
+      que o seu acesso seja possível de várias formas.
+
+Sistema de Gestão de Bancos de Dados
+    * É um software que permite o acesso, interação e manipulação do banco de
+      dados. Atualmente existem vários sistemas de gerenciamento de bases de
+      dados, sendo os mais utilizados:
+        * Oracle
+        * Mysql
+        * Microsoft SQL Server
+        * PostgreSQL

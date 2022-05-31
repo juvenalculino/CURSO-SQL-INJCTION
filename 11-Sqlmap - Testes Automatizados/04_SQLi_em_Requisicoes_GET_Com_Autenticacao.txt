@@ -1,0 +1,12 @@
+_____________________________________
+\\REQUISIÇÃO GET - COM AUTENTICAÇÃO//
+-------------------------------------
+
+A autenticação num website funciona normalmente através de cookies ou tokens de sessão. Ou seja, em cada requisição que
+fazemos, enviamos nos headers o cookie ou token de sessão, que é validado pela aplicação antes de podermos acessar a
+determinadas funcionalidades. Para testar SQL Injection nestas funcionalidades com a ferramenta SQLmap, é necessário
+especificar os cookies ou tokens de sessão. Isto pode ser feito através da flag --headers=”Cookies_Sessão”.
+
+# sqlmap -u 'endpoint_da_requisição.' --headres="cookie1, cookie2"
+
+# sqlmap -u http:127.0.0.1:2000/sqli_2.php?movie=qqwqwqwqww --headres="cookie=dsdjhdbdhddjjdhjdsjdjhjsdhshfhj"

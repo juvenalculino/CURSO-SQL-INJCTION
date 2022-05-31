@@ -1,0 +1,87 @@
+_________________________
+Processo de Autenticação
+
+
+Autenticação é o processo de verificação de identidade. Um dos processos mais comum é a Autenticação Local,
+onde a combinação username+password é usada para verificar a identidade dos usuários. Exemplo do fluxo:
+
+1)O usuário se cadastra na aplicação criando uma conta de usuário com um identificador único (username) e a
+respectiva password;
+2) A aplicação salva o par username+password do usuário em seu banco de dados;
+3) A aplicação envia uma mensagem / email ao usuário para validar o cadastro da conta;
+4) Após o cadastro da conta, o usuário acessa a aplicação com o respectivo username e password;
+5) Sendo autenticado na aplicação, o usuário pode acessar recursos específicos;
+6) A autenticação do usuário é mantida por meio de cookies ou tokens de sessão;
+
+- Ao enviar o formulario de login, o usuário está, na
+  verdade a fazer uma requisição web. Nesta requisição destaca-se:
+    * Referer: Página web a partir da qual fez a
+    requisição;
+
+    * Content-Type: Tipo de dados que são enviados no
+    body da requisição;
+    
+    * Content-Length: Tamanho do conteúdo enviado
+      no body da requisição;
+    
+    * Body (corpo): Informação enviada na requisição.
+      Neste caso é o formulário de login que contém o
+      username e a password do usuário.
+
+
+° Ao receber a requisição web, o webserver
+  encaminha para o respetivo destino, neste caso
+  uma função na aplicação backend cujo objectivo é
+  tratar da autenticação dos usuários.
+
+° Esta função está preparada para validar as
+  credenciais do usuário recebidas por meio da
+  requisição web. Para tal, é efetuada uma query ao
+  banco de dados a requisitar a password do
+  usuário com username “ruicarreira”.
+
+° O banco de dados, contém um registo de usuário
+  com username “ruicarreira” e, devolve a
+  respectiva password à função da aplicação
+  backend.
+
+° Agora, resta validar se a password enviada pelo
+  usuário é ou não igual à password armazenada no
+  banco de dados. Se forem iguai, o usuário deve
+  poder-se autenticar na aplicação web.
+      * Verificando que a password enviada pelo usuário
+        é igual à password armazenada no banco de
+        dados, a função de autenticação irá gerar cookies
+        / tokens de sessão e envia-los em resposta à
+        requisição.
+      
+      * Na resposta é enviado o status code “302 Found”,
+        que é um código de “redirect”. Assim sendo, é
+        também enviado o “Location” para indicar qual o
+        redirect que o browser deve seguir.
+
+      * É também enviado o “Set-Cookie” para indicar ao
+        browser do usuário que deve salvar as cookies
+        para que estas sejam enviadas nas próximas
+        requisições.  
+
+* Após receber a resposta da requisição de login, o
+  browser faz uma requisição POST para o endpoint
+  que foi redireccionado.
+
+* Nesta requisição, os cookies definidos pelo
+  webserver já são enviados. Entre eles, está o
+  cookie “session” que identifica a sessão /
+  autenticação do usuário no website.
+
+* Ao receber a requisição, a aplicação backend irá
+  validar se o cookie de sessão é válido e a qual
+  usuário pertence. Se o usuário em questão tiver
+  autorização / permissão de acesso para acessar a
+  funcionalidade / endpoint especificado na
+  requisição, o backend vai devolver os recursos
+  requisitados.
+
+* Como o usuário está autorizado a acessar os
+  recursos requisitados, o webserver retornará o
+  conteúdo requisitado.

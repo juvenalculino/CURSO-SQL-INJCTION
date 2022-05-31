@@ -1,0 +1,21 @@
+_______________________
+\\SQLMAP - INTRODUÇÃO//
+-----------------------
+
+SQLMAP CHEAT SHEET: https://cdn.comparitech.com/wp-content/uploads/2021/07/sqlmap-Cheat-Sheet.jpg
+------------------------------------------------------------------------------------------------
+
+1 - Suporta as seguintes técnicas de SQLi: Boolean-Based Blind, Time-Based Blind,
+    Error-Based Blind, Union Query-Based, Stacked Queries e Out-Of-Band.
+
+2 - Suporte para: Enumeração de usuários, hashes de passwords, privilégios, roles, bancos de 
+        dados, tabelas e colunas;
+
+3 - Reconhecimento automático de formatos de hashes de passwords e suporte para cracking de passwords 
+    com ataque do tipo dictonary;
+
+4 - Suporte para o dump das tabelas do banco de dados na sua tonalidade, num 
+    determinado número de registros ou de colunas específicas;
+
+5 - Suporte para a execução de comandos e retornos dos respectivos outputs no servidor do banco
+    de dados, quando o banco de dados é mysql, postgresql ou microsoft sql server.

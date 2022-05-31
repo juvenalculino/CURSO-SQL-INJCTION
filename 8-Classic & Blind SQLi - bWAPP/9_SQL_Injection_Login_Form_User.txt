@@ -1,0 +1,14 @@
+_________________________________________
+SQL Injection (Login Form/User)
+
+Ao adicionarmos um aspas simples a aplicação nos retorna um erro.
+
+Porém ao adicionarmos payloads a aplicação retorna Invalid Credential!
+
+Query: SELECT * FROM users WHERE login = '" . $login . "'";
+
+ESSA PARTE DE LOGIN E PASSWORD ESTÁ SENDO TRATADO E FAZER UM BYPASS DISSO SERIA MUITO DEMORADO.
+
+UMA DICA SERIA UTILIZAR O SQLMAP
+
+sqlmap -u "http://192.168.140.139/bWAPP/sqli_16.php" --cookie="PHPSESSID=9d942f4327321b4cc8a5fe27b5b78d7d; security_level=0" --data="login=test&password=test&form=submit" –dbs --fresh-queries

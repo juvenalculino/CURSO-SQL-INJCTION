@@ -1,0 +1,26 @@
+_____________________________________
+\\REQUISIÇÕES GET- SEM AUTENTOCAÇÃO//
+-------------------------------------
+
+Quando estamos perante uma requisição GET, sem que seja necessário estar autenticado na aplicação para efetuar a
+requisição e este não envie nenhuma informação no body, podemos usar o seguinte comando do SQLmap:
+    # sqlmap -u "EndPoint da requisição."
+
+___________
+Importante: Quando corremos a ferramenta SQLmap e não
+especificamos os valores RISK e LEVEL, por default, o SQLmap
+utiliza os valores RISK=1 e LEVEL=1.
+
+
+_____ 
+RISK
+-----
+Por defeito, o SQLmap utiliza o RISK=1, que cobre a maior parte das técnicas de SQL Injection. No entant, se quisermos
+aprofundar/ser mais minuciosos nos testes, podemos aumentar o valor do RISK para adicionar testes mais intrusivos: RISK=1
+(Default) ; RISK=2 (Adiciona testes SQL Injection Time-Based) ; RISK=3 (Adiciona testes SQL Injection OR-Based)
+
+
+______
+LEVEL
+------
+Por defeito, o SQLmap testa todos os parâmetros especificados tanto em requisições POST como GET. No entanto em alguns casos, pode ser necessário testar outros valores como por exemplo os headers HTTP. O LEVEL serve para fazer esta especificação: LEVEL=1 (Default) ; LEVEL=2 (Testa o Header HTTP Cookie) ; LEVEL=3 (Testa os Headers HTTP User-Agent e Referer) ; LEVEL=4 (Desconhecido) ; LEVEL=5 (Desconhecido)

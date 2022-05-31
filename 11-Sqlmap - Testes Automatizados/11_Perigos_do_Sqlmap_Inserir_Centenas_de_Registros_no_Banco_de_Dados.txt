@@ -1,0 +1,7 @@
+\\PERIGOS DO SQLMAP//
+
+* Quantidade de requisições que são feitas;
+* Faz muito barulho;
+* Dos;
+* Causar falhas;
+* etc...

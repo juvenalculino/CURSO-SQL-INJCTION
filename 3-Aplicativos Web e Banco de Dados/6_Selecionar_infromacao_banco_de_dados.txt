@@ -1,0 +1,41 @@
+___________________________________________
+Selecionar informações do banco de dados
+
+Selecionar toda a informação de todos os alunos
+    * SELECT * FRIN Aluno;
+
+Selecionar apenas o nome e password de todos os alunos
+    * SELECT nome, pasword FROM Aluno;
+
+Selecionar apenas o nome e password de todos os alunos
+cuja password tem um tamanho superior a 9 caracteres.
+    * SELECT * FROM Aluno WHERE length(password)>9;
+
+SELECIONAR TODAS AS AVALIAÇÕES DO ALUNO PEDRO VIEIRA
+    * SELECT Aluno.nome, Avaliacao.* From Aluno, Avaliacao WHERE Aluno.id=1 AND Avaliacao.id_aluno=1;
+
+Selecionar o nome de cada aluno e a respectiva avaliação(nota_final) obtida em cada disciplina (designação)
+    * SELECT Aluno.nome, Avaliacao.nota_final, Disciplina.designacao FROM Aluno, Avaliacao, Disciplina WHERE
+      Aluno.id=Avaliacao.id_aluno AND Avaliacao.id_disciplina=Disciplina.id;
+
+Selecionar o nome do aluno “Pedro” e a respetiva avaliação (nota_final) obtida em cada disciplina (designacao)
+    * SELECT Aluno.nome, Avaliacao.nota_final, Disciplina.dsignacao FROM Aluno, Avaliacao, Disciplina WHERE
+      Aluno.id= 1 AND Aluno.id=Avaliacao.id_aluno AND Avaliacao.id_disciplina=Disciplina.id;
+
+Selecionar todos os registos da tabela Aluno
+    * SELECT * FROM Aluno;
+
+Seleccionar o número de registos que existem na tabela Aluno
+    * SELECT COUNT(*) FROM Aluno;
+
+Selecionar o número de registos que existem na tabela Aluno, cuja password contem mais de 9 caracteres.
+    * SELECT COUNT(*) FROM Aluno WHERE length(Aluno.password)>9;
+
+Selecionar todos os registos da tabela Aluno ordenados pela coluna “nome” ou “2”
+    * SELECT * FROM Aluno ORDER BY Aluno.nome; OU SELECT * FROM Aluno ORDER BY 2;
+
+Selecionar todos os registos da tabela Aluno ordenados pela coluna “username” ou “3”
+ * SELECT * FROM Aluno ORDER BY Aluno.username; OU SELECT * FROM Aluno ORDER BY 3;
+
+Selecionar todos os registos da tabela Aluno mas limitar o resultado da query a 1 resultado
+    * SELECT * FROM Aluno LIMIT 1;

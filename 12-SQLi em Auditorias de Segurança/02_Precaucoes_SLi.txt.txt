@@ -1,0 +1,17 @@
+\\PRECAUÇÕES//
+-------------
+
+● Validade Tokens de Sessão
+Testes automatizados podem por vezes demorar várias horas até terminarem. Se estivermos a testar SQL
+Injection com autenticação, é preciso garantir que o token de sessão não expira antes dos testes terminarem.
+
+● Inserção de registos no Banco de Dados
+Testes de SQL Injection em funcionalidades que criam novos registos no banco de dados não devem ser
+realizados em websites de produção. A melhor solução será o cliente fornecer um clone da aplicação web e
+respectivo banco de dados. Isto previne a inserção de milhares de registos inúteis no banco de dados da
+aplicação durantes os testes.
+
+● Sobrecarregar Servidor da aplicação com requisições web
+Como em qualquer scanner de vulnerabilidades, devemos prestar atenção à quantidade de requisições por
+segundo que estamos a fazer. Um elevado número de requisições por segundo poderá refletir-se num ataque
+de DOS e, tornar os serviços da aplicação web a auditar inacessíveis para os seus usuários.

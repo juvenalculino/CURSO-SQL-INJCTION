@@ -1,0 +1,17 @@
+_____________________________________________
+\\ALTERNATIVA À CRIAÇÃO DE COMANDOS MANUAIS//
+---------------------------------------------  
+
+Até agora, verificamos várias formas de construir um comando SQLmap para requisições GET e POST, que enviem informação
+no body ou que necessitem dos cookies / tokens de sessão. No entanto, existe uma forma mais rápida e eficiente de construir
+o comando:
+
+Podemos simplesmente interceptar a requisição com o burp, copiar o conteúdo todo
+da requisição, colocar num ficheiro de texto e correr o SQLmap diretamente a partir
+desse ficheiro de texto. Vamos supor que guardamos o conteúdo da requisição no
+seguinte caminho /home/usuarioKali/Desktop/requisicao.txt. Assim apenas é
+necessário correr o comando do SQLmap com a tag -r caminho_ficheiro_requisição a
+indicar o caminho do ficheiro que contém a requisição.
+
+    # sqlmap -r /home/usuarioKali/Desktop/requisicao.txt
+    # sqlmap -r /home/usuarioKali/Desktop/requisicao.txt -dbs

@@ -1,0 +1,14 @@
+________________________________________________
+Criando um usuário para acessar o banco de dados
+
+Verificar se as tabelas foram criadas
+    * SHOW TABLES;]
+
+Criar usuário
+    * CREATE USER 'aluno_udemy'@'localhost' IDENTIFIED BY 'pass';
+
+Fornecer acesso ao banco de dados ao usuário criado
+    * GRANT ALL PRIVILEGES ON CursoUdemy.* TO 'aluno_udemy'@'localhost';
+
+Guardar as alterações e atualizar privilégios;
+    * FLUSH PRIVILEGES;

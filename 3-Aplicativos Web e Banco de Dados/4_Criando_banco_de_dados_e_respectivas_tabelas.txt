@@ -1,0 +1,79 @@
+Criando um modelo de banco de dados mysql.
+
+Vamos simular um banco de dados capaz de guardar informações relacionada a escola
+Assim sendo, o banco de dados deve guardar:
+    * Informações sobre os alunos (nome, username, password)
+    * Informações sobre os professores (nome, telefone)
+    * Para cada professor, a respectiva disciplina  que ensina
+    * As diferentes notas obtidas pelos alunos em cada disciplina.
+               _____________________________
+               |          Avaliação         |
+               |----------------------------|0
+              0| - id int(10)PK             |-----------------|
+           |---| - nota_final double        |                 |
+           |   | - data varchar(50)         |   ______________|1_____________
+           |   | - id_aluno int(10)FK       |   |      Disciplina           |
+           |   | - id_disciplina int(10)FK  |   |---------------------------|
+           |   | - id int(10)PK             |   | - id int(10)PK            |
+          1|   |____________________________|   | - designacao varchar(100) |
+        ___|_____________________               |___________________________|
+       | Aluno                   |                          1|
+       |-------------------------|                           |
+       | - id int(10)PK          |                           |
+       | - nome varchar(100)     |                           |
+       | - username varchar(100) |            ______________0|______________
+       | - password varchar(100) |            |        Professor           |     
+       |_________________________|            |----------------------------|
+                                              |  - id int(10)PK            |
+                                              |  - nome varchar(100)       |
+                                              |  - telefone varchar(12)    |
+                                              |  - id_disciplina int(10)FK |
+                                              |____________________________|
+_______________________
+Criar um banco de dados
+    - Entrar no serviço de banco de dados so mysql com o usuário root
+        # sudo mysql -u root
+    - Criar um banco de dados novo
+        # CREATE DATABASE teste;
+    - Ver todas as bases dados registradas
+        # SHOW DATABASES;
+    - Usar o banco de dados com quisermos interagir
+        # USE teste;
+    - Mostrar as tabelas do banco de dados;
+        # show tables;
+
+_______________________________
+Criar tabelas do banco de dados
+    * CREATE TABLE Aluno(
+        id int(10),
+        nome varchar(100),
+        username varchar(100),
+        password(varchar100),
+        PRIMARY KEY(id)
+    );
+
+    * CREATE TABLE Disciplina(
+        id int(10),
+        designacao varvhar(100),
+        PRIMARY KEY(id)
+
+    );
+
+    CREATE TABLE Avaliacao(
+        id int(10),
+        nota_final double,
+        data varchar(50),
+        id_aluno int(10),
+        PRIMARY KEY(id),
+        FOREIGN KEY(id_aluno) REFERENCES Aluni(id),
+        FOREIGN KEY(id_disciplina) REFERENCES Disciplina(id)
+    );
+
+    CREATE TABLE Professo(
+        id int(10),
+        nome varchar(100),
+        telefone vachar(12),
+        id_disciplina int(10),
+        PRIMARY KEY(id),
+        FOREIGN KEY(id_disciplina) REFERENCES Disciplina(id)
+    );

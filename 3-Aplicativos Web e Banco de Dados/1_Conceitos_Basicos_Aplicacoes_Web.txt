@@ -1,0 +1,83 @@
+_________________
+Acesso a Internet
+
+|-> Usuário ----> Ponto de Acesso -----> Internet Service Provider(ISP) ------> Recursos da Internet
+      ||    <----    (Roteador)   <----- Vivo,AAlternativa, Tim, Etc   <------ Apk web, chats, etc.
+
+_______________________
+Domain Name System (DNS)
+
+* Acessar aplicações web apartir de seu endereço IP, decora o IP de cada
+  site que você deseja acessar.
+
+* Atribui um domínio (Ex: facebook.com) a um endereço IP, facilitando o
+  acesso ao respectivo site.
+
+* No entanto, os mecanismos de pesquisa não podem interpretar domínios , mas sim endereços IP;
+
+* Quando colocamos um domínio no navegado, se o seu endereço IP não estiver no cache, o 
+  navegador faz uma solicitação a um servidor DNS, para saber o IP do domínio solicitado.
+
+* Os servidores de DNS contêm listas / registros de diferentes domínios e seus endereços IP;
+
+
+_____________________________
+Aplicações Web - Constituição
+
+____________________________________________________________________________________________________________________________________________________
+|                          ___________________________________________________________________________________                                      |
+|                          |                       Servidor Web (Web Server)                                  |       ____________________________  |
+|  __________________      | __________________________________           __________________________________  | ----->| Servidor de banco de dados| |
+|  |     Usuários   | ---> | |     Front-End(Client-Side)      | req_web  |     Backend(Server-Side)        | | query |     (Database Server)     | |
+|  |        ||      |      | | * corre no browser do usuário   | ------>  | * Corre no servidore Web        | |       |---------------------------| |
+|  |        ||      | <--- | | * O que o usuário vê            | resposta | * Trata das requisições do user | |resp   |       Banco de Dados      | |
+|  |________________|      | | * Com o que o usuário interage  | <------  | * Faz queries ao banco de dados | |<------|         (Database)        | |
+|                          | |_________________________________|          |_________________________________| |       |___________________________| |
+|                          |__________________________________________________________________________________|                                     |
+|___________________________________________________________________________________________________________________________________________________|
+
+
+Frontend - Client Side
+    - Este código geralmente é uma linguagem de marcação como html + css
+      para realizar transformações nos componentes que sãi mostrados na
+      aplicação e fazer solicitações à aplicação back-end.
+
+        - Linguagens: HTML, CSS, JAVASCRIPT, TYPESCRIPT, etc..
+        - Frameworks: ANGULAR, BOOTSTRAP, REACT, VUE.JS, etc..
+
+Backend - Server Side
+    - Código responsável pelas validação da informação. Isso inclui,
+      por exemplo, verificar se o input de um usuário recebido em uma
+      solicitação web foi bem preenchido, criar respostas às solicitações
+      web, construir o banco de dados, etc..
+
+      - Linguagens: Javascript, PHP, Java, Python, C, etc..
+      - Frameworks: Node.js, Laravel, Django, etc..
+
+
+Servidor Web
+    - Responsável por hospedar uma ou mais aplicações web.
+      Podemos definir como hardware e software.
+      HARDWARE:
+        * Peças específicas para otimizar a eficiência;
+        * Funciona 24 horas por dia;
+        * Executa o servidor web (Software)
+      
+      SOFTWARE:
+        * Programas que permitem receber, interpretar e
+          responder a solicitações HTTP / HTTPS de clientes.
+
+      TECNOLOGIAS:
+        * Apache, Nginx, Lite Speed, Tomcat JSP, etc.
+
+
+Banco de Dados
+    - Conjunto de informaçõe estruturada e relacionada entre si,
+      sobre um tópico ou domínio especifico.
+        - Permite salvar informações como:
+            * Contas de usuários
+            * Produtos para venda (Carro, brinquedo, etc..)
+            * Logs de aplicações, etc..
+        TECNOLOGIAS:
+            MYSQL, ORACLE, POSTGRESQL, MICROSOFT SQL, SERVER
+            MICROSOFT ACCESS, IBM DB2, SQLITE, FIREBIRD, SYBASE, ETC..

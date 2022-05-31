@@ -1,0 +1,8 @@
+________________________________
+\\EXPLORAR SQLi NO USER-AGENT//
+--------------------------------
+
+Vamos interceptar com o burp e construir o comando.
+    * Precisamos definil o level 3 para o sqlmap testar os headers da requisição.
+
+        # sqlmap -r requisicao.txt --level=3

